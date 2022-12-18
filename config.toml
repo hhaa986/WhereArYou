@@ -1,0 +1,5 @@
+title = "config file"
+
+[DB]
+dsn ="host=localhost user=root password=root dbname=way port=5432 sslmode=disable TimeZone=Asia/Seoul"
+
