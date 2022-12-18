@@ -13,12 +13,20 @@ type WhiskeyDb struct {
 }
 
 func NewWhiskeyDb(dbCon *Connection) *WhiskeyDb {
-	dbCon.Db.AutoMigrate(&model.Whiskey{}, &model.WCategory{}, &model.WReview{})
+	dbCon.Db.AutoMigrate(&model.WCategory{}, &model.Whiskey{}, &model.WReview{})
 	return &WhiskeyDb{DbCon: dbCon}
 }
 
 // create
 func (wd *WhiskeyDb) CreateWhiskeyDb(whiskey model.Whiskey) model.Whiskey {
+	result := wd.DbCon.Db.Save(&whiskey)
+	if result.Error != nil {
+		panic("Errrr fail to create whiskey")
+	}
+	return whiskey
+}
+
+func (wd *WhiskeyDb) CreateWhiskeyCDb(whiskey model.WCategory) model.WCategory {
 	result := wd.DbCon.Db.Save(&whiskey)
 	if result.Error != nil {
 		panic("Errrr fail to create whiskey")

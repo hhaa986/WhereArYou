@@ -15,7 +15,10 @@ func main() {
 	//db
 	dbCon := db.GetDbConnection(conf)
 	dbWhiskey := db.NewWhiskeyDb(dbCon)
-	dbWhiskey.CreateWhiskeyDb(model.Whiskey{Name: "wsk", AlcoholLevel: 50})
+	dbWhiskey.CreateWhiskeyCDb(model.WCategory{
+		Name: "싱글몰트?",
+		//Whiskeys: []model.Whiskey{},
+	})
 }
 
 func mainURL(w http.ResponseWriter, r *http.Request) {
