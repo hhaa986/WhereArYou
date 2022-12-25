@@ -1,20 +1,28 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
-	cont "wayBack/controller"
+	_ "wayBack/docs"
+	h "wayBack/h"
 )
 
+// @title Way API
+// @version 0.0.1
+// @description Whiskeyyyyyydddyy
+// @host localhost:8000
+// @BasePath /
 func main() {
-	//toml Setting
-	//conf := config.SetToml()
+	r := gin.Default()
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	r := mux.NewRouter()
-	err := cont.WhiskeyController(r)
-
-	if err != nil {
-		panic("서버 실행 실패")
-	}
-	http.ListenAndServe(":8000", r)
+	r.GET("/whiskey", h.GetWhiskeysHandler)
+	r.Run(":8000")
 }
