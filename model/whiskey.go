@@ -13,13 +13,12 @@ type Whiskey struct {
 
 type WCategory struct {
 	gorm.Model
-	Name     string    //분류명
-	Whiskeys []Whiskey `gorm:"foreignKey:CID"`
+	Name string //분류명
 }
 
 type WReview struct {
 	gorm.Model
 	Price    float32 //가격
 	Location string  //위치
-	WID      uint    //위스키 품명 no
+	WID      uint    //위스키 no
 }

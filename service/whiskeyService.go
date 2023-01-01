@@ -18,33 +18,64 @@ func (s *WhiskeyService) InitService() error {
 	return nil
 }
 
-// GetAllWhiskey WhiskeyService godoc
-// @Accept json
-// @Produce json
+// Whiskey
 func (s *WhiskeyService) GetAllWhiskey() []model.Whiskey {
-	whiskeys := s.Repository.GetAllWhiskeysDb()
-	return whiskeys
+	return s.Repository.GetAllWhiskeysDb()
 }
 
-// GetWhiskey WhiskeyService godoc
-// @Accept json
-// @Produce json
-// @Success 200 {} model.Whiskey
-// @Router /whiskey [get]
-func (s *WhiskeyService) GetWhiskey(name string) model.Whiskey {
-	var a model.Whiskey
-	a.Name = name
-	return a
+func (s *WhiskeyService) GetWhiskeyById(id uint) model.Whiskey {
+	return s.Repository.GetWhiskeyDbByID(id)
 }
 
-func (s *WhiskeyService) CreateWhiskey(cw model.CreateWRequest) model.Whiskey {
-	w := model.Whiskey{
-		Name:         cw.WName,
-		AlcoholLevel: cw.AlcoholLevel,
-		Origin:       cw.Origin,
-		CID:          cw.CID,
-	}
+func (s *WhiskeyService) GetWhiskeyByName(name string) []model.Whiskey {
+	return s.Repository.GetWhiskeyDbByName(name)
+}
+
+func (s *WhiskeyService) GetWhiskeyByCategory(cid uint) []model.Whiskey {
+	return s.Repository.GetWhiskeyDbByCid(cid)
+}
+
+func (s *WhiskeyService) CreateWhiskey(w model.Whiskey) model.Whiskey {
 	//Todo cid가 category에 없는거면 반환 에러임!!
-	whiskey := s.Repository.CreateWhiskeyDb(w)
-	return whiskey
+	return s.Repository.CreateWhiskeyDb(model.Whiskey{
+		Name:         w.Name,
+		AlcoholLevel: w.AlcoholLevel,
+		Origin:       w.Origin,
+		CID:          w.CID,
+	})
+}
+
+func (s *WhiskeyService) UpdateWhiskey(whiskey model.Whiskey) model.Whiskey {
+	return s.Repository.UpdateWhiskeyDb(whiskey)
+}
+
+func (s *WhiskeyService) DeleteWhiskey(id uint) error {
+	return s.Repository.DeleteWhiskeyDb(id)
+}
+
+// Category
+func (s *WhiskeyService) GetAllWCategory() []model.WCategory {
+	return s.Repository.GetAllWCategoryDb()
+}
+
+func (s *WhiskeyService) GetWCategory(id uint) model.WCategory {
+	return s.Repository.GetWCategoryDbById(id)
+}
+
+func (s *WhiskeyService) GetWCategoryByName(name string) []model.WCategory {
+	return s.Repository.GetWCategoryDbByName(name)
+}
+
+func (s *WhiskeyService) CreateWCategory(w model.WCategory) model.WCategory {
+	return s.Repository.CreateWCategoryDb(model.WCategory{
+		Name: w.Name,
+	})
+}
+
+func (s *WhiskeyService) UpdateWCategory(whiskey model.WCategory) model.WCategory {
+	return s.Repository.UpdateWCategoryDb(whiskey)
+}
+
+func (s *WhiskeyService) DeleteWCategory(id uint) error {
+	return s.Repository.DeleteWCategoryDb(id)
 }

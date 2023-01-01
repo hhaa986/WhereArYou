@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
+	"fmt"
+	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"net/http"
 	_ "wayBack/docs"
-	h "wayBack/h"
+	h "wayBack/handler"
+	s "wayBack/service"
 )
 
 // @title Way API
@@ -14,15 +15,28 @@ import (
 // @description Whiskeyyyyyydddyy
 // @host localhost:8000
 // @BasePath /
-func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	r.GET("/whiskey", h.GetWhiskeysHandler)
-	r.Run(":8000")
+func main() {
+	r := mux.NewRouter()
+	err := s.Service.InitService()
+	if err != nil {
+		panic(err)
+	}
+
+	r.HandleFunc("/whiskey", h.GetWhiskeys).Methods(http.MethodGet)
+	r.HandleFunc("/whiskey", h.CreateWhiskey).Methods(http.MethodPost)
+	r.HandleFunc("/whiskey", h.UpdateWhiskey).Methods(http.MethodPut)
+	r.HandleFunc("/whiskey/{id:[0-9]+}", h.DeleteWhiskey).Methods(http.MethodDelete)
+
+	//category
+	r.HandleFunc("/whiskeyCategory", h.GetWhiskeysCategory).Methods(http.MethodGet)
+	r.HandleFunc("/whiskeyCategory", h.CreateWhiskeyCategory).Methods(http.MethodPost)
+	r.HandleFunc("/whiskeyCategory", h.UpdateWhiskeyCategory).Methods(http.MethodPut)
+	r.HandleFunc("/whiskeyCategory/{id:[0-9]+}", h.DeleteWhiskeyCategory).Methods(http.MethodDelete)
+
+	corsHandler := cors.Default().Handler(r)
+	err = http.ListenAndServe(":8000", corsHandler)
+	if err != nil {
+		fmt.Println(err)
+	}
 }

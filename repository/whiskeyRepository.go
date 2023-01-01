@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"gorm.io/gorm"
 	"wayBack/db"
 	"wayBack/model"
 )
@@ -21,7 +20,7 @@ func NewWhiskeyRepository(dbCon *db.Connection) *WhiskeyRepository {
 
 // CreateWhiskeyDb Whiskey
 func (wd *WhiskeyRepository) CreateWhiskeyDb(whiskey model.Whiskey) model.Whiskey {
-	result := wd.DbCon.Db.Save(&whiskey)
+	result := wd.DbCon.Db.Create(&whiskey)
 	if result.Error != nil {
 		panic("Errrr fail to create whiskey")
 	}
@@ -34,16 +33,80 @@ func (wd *WhiskeyRepository) GetAllWhiskeysDb() []model.Whiskey {
 	return whiskeys
 }
 
-func (wd *WhiskeyRepository) GetWhiskeyDb(id uint) model.Whiskey {
-	var whiskey = model.Whiskey{Model: gorm.Model{ID: id}}
-	wd.DbCon.Db.Find(&whiskey)
+func (wd *WhiskeyRepository) GetWhiskeyDbByID(id uint) model.Whiskey {
+	var whiskey model.Whiskey
+	wd.DbCon.Db.Where("id = ?", id).Find(&whiskey)
 	return whiskey
 }
 
-func (wd *WhiskeyRepository) CreateWhiskeyCDb(whiskey model.WCategory) model.WCategory {
-	result := wd.DbCon.Db.Save(&whiskey)
+func (wd *WhiskeyRepository) GetWhiskeyDbByName(name string) []model.Whiskey {
+	var whiskeys []model.Whiskey
+	wd.DbCon.Db.Where("name = ?", name).Find(&whiskeys)
+	return whiskeys
+}
+
+func (wd *WhiskeyRepository) GetWhiskeyDbByCid(cid uint) []model.Whiskey {
+	var whiskeys []model.Whiskey
+	wd.DbCon.Db.Where("c_id = ?", cid).Find(&whiskeys)
+	return whiskeys
+}
+
+func (wd *WhiskeyRepository) UpdateWhiskeyDb(w model.Whiskey) model.Whiskey {
+	var wsk map[string]interface{}
+	wsk = map[string]interface{}{
+		"Name":         w.Name,
+		"Origin":       w.Origin,
+		"AlcoholLevel": w.AlcoholLevel,
+		"CID":          w.CID,
+	}
+	wd.DbCon.Db.Model(model.Whiskey{}).Where("ID = ?", w.Model.ID).Updates(&wsk)
+	wskk := wd.GetWhiskeyDbByID(w.ID)
+	return wskk
+}
+
+func (wd *WhiskeyRepository) DeleteWhiskeyDb(id uint) error {
+	var whiskey model.Whiskey
+	wd.DbCon.Db.Delete(&whiskey, id)
+	return nil
+}
+
+func (wd *WhiskeyRepository) CreateWCategoryDb(whiskey model.WCategory) model.WCategory {
+	result := wd.DbCon.Db.Create(&whiskey)
 	if result.Error != nil {
 		panic("Errrr fail to create whiskey")
 	}
 	return whiskey
+}
+
+func (wd *WhiskeyRepository) GetWCategoryDbById(id uint) model.WCategory {
+	var wc model.WCategory
+	wd.DbCon.Db.Where("id = ?", id).Find(&wc)
+	return wc
+}
+func (wd *WhiskeyRepository) GetWCategoryDbByName(name string) []model.WCategory {
+	var wcs []model.WCategory
+	wd.DbCon.Db.Where("name = ?", name).Find(&wcs)
+	return wcs
+}
+
+func (wd *WhiskeyRepository) GetAllWCategoryDb() []model.WCategory {
+	var wCategorys []model.WCategory
+	wd.DbCon.Db.Find(&wCategorys)
+	return wCategorys
+}
+
+func (wd *WhiskeyRepository) UpdateWCategoryDb(w model.WCategory) model.WCategory {
+	var wsk map[string]interface{}
+	wsk = map[string]interface{}{
+		"Name": w.Name,
+	}
+	wd.DbCon.Db.Model(model.WCategory{}).Where("ID = ?", w.Model.ID).Updates(&wsk)
+	wcc := wd.GetWCategoryDbById(w.ID)
+	return wcc
+}
+
+func (wd *WhiskeyRepository) DeleteWCategoryDb(id uint) error {
+	var wc model.WCategory
+	wd.DbCon.Db.Delete(&wc, id)
+	return nil
 }
