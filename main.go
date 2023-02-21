@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"net/http"
-	_ "wayBack/docs"
-	h "wayBack/handler"
-	s "wayBack/service"
+	_ "way_BE/docs"
+	h "way_BE/handler"
+	s "way_BE/service"
 )
 
 // @title Way API
@@ -34,6 +35,7 @@ func main() {
 	r.HandleFunc("/whiskeyCategory", h.UpdateWhiskeyCategory).Methods(http.MethodPut)
 	r.HandleFunc("/whiskeyCategory/{id:[0-9]+}", h.DeleteWhiskeyCategory).Methods(http.MethodDelete)
 
+	r.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	corsHandler := cors.Default().Handler(r)
 	err = http.ListenAndServe(":8000", corsHandler)
 	if err != nil {

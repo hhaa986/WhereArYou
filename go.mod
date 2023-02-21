@@ -1,4 +1,4 @@
-module wayBack
+module way_BE
 
 go 1.19
 

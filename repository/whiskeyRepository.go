@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"wayBack/db"
-	"wayBack/model"
+	"way_BE/db"
+	"way_BE/model"
 )
 
 type IWhiskeyRepository interface {

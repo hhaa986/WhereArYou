@@ -7,10 +7,17 @@ import (
 	"gorm.io/gorm"
 	"net/http"
 	"strconv"
-	"wayBack/model"
-	s "wayBack/service"
+	"way_BE/model"
+	s "way_BE/service"
 )
 
+// GetWhiskeys
+// @Summary This is simple Summary.
+// @Description This is detail Description.
+// @Accept  json
+// @Produce  json
+// @Router /whiskey [get]
+// @Success 200 {object} string
 func GetWhiskeys(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("name")
 	id := r.URL.Query().Get("id")

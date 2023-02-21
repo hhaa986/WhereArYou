@@ -1,9 +1,9 @@
 package service
 
 import (
-	"wayBack/db"
-	"wayBack/model"
-	repo "wayBack/repository"
+	"way_BE/db"
+	"way_BE/model"
+	repo "way_BE/repository"
 )
 
 type WhiskeyService struct {
