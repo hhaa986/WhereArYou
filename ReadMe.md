@@ -4,6 +4,7 @@
 
 - Lang : Go
 - DB: postgresql
+- Docker
 
 ## swagger 실행
 - go get -u github.com/swaggo/swag/cmd/swag
