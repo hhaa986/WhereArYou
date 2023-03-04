@@ -81,7 +81,7 @@ require (
 	github.com/subosito/gotenv v1.4.1 // indirect
 	github.com/swaggo/files v1.0.0 // indirect
 	github.com/swaggo/gin-swagger v1.5.3 // indirect
-	github.com/swaggo/swag v1.8.9 // indirect
+	github.com/swaggo/swag v1.8.10 // indirect
 	github.com/toqueteos/webbrowser v1.2.0 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	go.mongodb.org/mongo-driver v1.11.1 // indirect
