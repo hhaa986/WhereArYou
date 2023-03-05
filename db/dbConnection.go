@@ -1,9 +1,13 @@
 package db
 
 import (
+	"fmt"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"log"
+	"os"
 	"sync"
 )
 
@@ -16,8 +20,18 @@ var once sync.Once
 
 func GetDbConnection() *Connection {
 	once.Do(func() {
-		//temp, err := gorm.Open(postgres.Open(conf.DB.Info), &gorm.Config{
-		temp, err := gorm.Open(postgres.Open("host=whisky_db_1.0 user=root password=root dbname=way port=5432 sslmode=disable TimeZone=Asia/Seoul"), &gorm.Config{
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
+		dsn := "host=" + os.Getenv("DB_HOST") +
+			" user=" + os.Getenv("DB_USER") +
+			" password=" + os.Getenv("DB_PWD") +
+			" dbname=" + os.Getenv("DB_NAME") +
+			" port=" + os.Getenv("DB_PORT") +
+			" sslmode=disable TimeZone=Asia/Seoul"
+		fmt.Println("dsn:" + dsn)
+		temp, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Info),
 		})
 		instance = &Connection{temp}

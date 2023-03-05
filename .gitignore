@@ -1,6 +1,6 @@
 
 go.sum
-go.mod
 *.xml
+.env
 /gen
 /docs
