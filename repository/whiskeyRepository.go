@@ -14,7 +14,7 @@ type WhiskeyRepository struct {
 }
 
 func NewWhiskeyRepository(dbCon *db.Connection) *WhiskeyRepository {
-	dbCon.Db.AutoMigrate(&model.WCategory{}, &model.Whiskey{}, &model.WReview{})
+	dbCon.Db.AutoMigrate(&model.WCategory{}, &model.Whiskey{}, &model.WImage{})
 	return &WhiskeyRepository{DbCon: dbCon}
 }
 
@@ -54,10 +54,10 @@ func (wd *WhiskeyRepository) GetWhiskeyDbByCid(cid uint) []model.Whiskey {
 func (wd *WhiskeyRepository) UpdateWhiskeyDb(w model.Whiskey) model.Whiskey {
 	var wsk map[string]interface{}
 	wsk = map[string]interface{}{
-		"Name":         w.Name,
-		"Origin":       w.Origin,
-		"AlcoholLevel": w.AlcoholLevel,
-		"CID":          w.CID,
+		"Name":   w.Name,
+		"Origin": w.Origin,
+		"ABV":    w.ABV,
+		"CID":    w.CID,
 	}
 	wd.DbCon.Db.Model(model.Whiskey{}).Where("ID = ?", w.Model.ID).Updates(&wsk)
 	wskk := wd.GetWhiskeyDbByID(w.ID)

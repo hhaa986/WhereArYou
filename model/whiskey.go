@@ -1,14 +1,20 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"github.com/lib/pq"
+	"gorm.io/gorm"
+)
 
 type Whiskey struct {
 	gorm.Model
-	Name         string    //품명
-	AlcoholLevel int64     //도수
-	Origin       string    //원산지
-	CID          uint      //위스키 카테고리 no
-	Reviews      []WReview `gorm:"foreignKey:WID"`
+	Name    string         //품명(한국어)
+	NameEng string         //품명(English)
+	ABV     int64          //도수
+	Cask    string         //캐스크
+	Origin  string         //원산지
+	CID     uint           //위스키 카테고리 No
+	Price   uint           //가격 , 우선은 한개..
+	CIDs    pq.StringArray `gorm:"type:text[]"`
 }
 
 type WCategory struct {
@@ -16,9 +22,8 @@ type WCategory struct {
 	Name string //분류명
 }
 
-type WReview struct {
+type WImage struct {
 	gorm.Model
-	Price    float32 //가격
-	Location string  //위치
-	WID      uint    //위스키 no
+	WID       uint   //whiskeyID
+	ImageLink string //image link
 }

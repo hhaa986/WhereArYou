@@ -38,10 +38,10 @@ func (s *WhiskeyService) GetWhiskeyByCategory(cid uint) []model.Whiskey {
 func (s *WhiskeyService) CreateWhiskey(w model.Whiskey) model.Whiskey {
 	//Todo cid가 category에 없는거면 반환 에러임!!
 	return s.Repository.CreateWhiskeyDb(model.Whiskey{
-		Name:         w.Name,
-		AlcoholLevel: w.AlcoholLevel,
-		Origin:       w.Origin,
-		CID:          w.CID,
+		Name:   w.Name,
+		ABV:    w.ABV,
+		Origin: w.Origin,
+		CID:    w.CID,
 	})
 }
 

@@ -46,10 +46,10 @@ func CreateWhiskey(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&wsk)
 	fmt.Println(wsk)
 	rWhiskeys := s.Service.CreateWhiskey(model.Whiskey{
-		Name:         wsk.WName,
-		AlcoholLevel: wsk.AlcoholLevel,
-		Origin:       wsk.Origin,
-		CID:          wsk.CID,
+		Name:   wsk.WName,
+		ABV:    wsk.AlcoholLevel,
+		Origin: wsk.Origin,
+		CID:    wsk.CID,
 	})
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusCreated)
@@ -64,10 +64,10 @@ func UpdateWhiskey(w http.ResponseWriter, r *http.Request) {
 		Model: gorm.Model{
 			ID: wsk.Id,
 		},
-		Name:         wsk.WName,
-		AlcoholLevel: wsk.AlcoholLevel,
-		Origin:       wsk.Origin,
-		CID:          wsk.CID,
+		Name:   wsk.WName,
+		ABV:    wsk.AlcoholLevel,
+		Origin: wsk.Origin,
+		CID:    wsk.CID,
 	})
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusCreated)
