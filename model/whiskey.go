@@ -9,10 +9,10 @@ type Whiskey struct {
 	gorm.Model
 	Name    string         //품명(한국어)
 	NameEng string         //품명(English)
-	ABV     int64          //도수
-	Cask    string         //캐스크
 	Origin  string         //원산지
 	CID     uint           //위스키 카테고리 No
+	ABV     int64          //도수
+	Cask    string         //캐스크
 	Price   uint           //가격 , 우선은 한개..
 	CIDs    pq.StringArray `gorm:"type:text[]"`
 }
