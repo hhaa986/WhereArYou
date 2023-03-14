@@ -24,18 +24,18 @@ func main() {
 		panic(err)
 	}
 
-	r.HandleFunc("/whiskey", h.GetWhiskeys).Methods(http.MethodGet)
-	r.HandleFunc("/whiskey", h.CreateWhiskey).Methods(http.MethodPost)
-	r.HandleFunc("/whiskey", h.UpdateWhiskey).Methods(http.MethodPut)
-	r.HandleFunc("/whiskey/{id:[0-9]+}", h.DeleteWhiskey).Methods(http.MethodDelete)
+	r.HandleFunc("/api/whiskey", h.GetWhiskeys).Methods(http.MethodGet)
+	r.HandleFunc("/api/whiskey", h.CreateWhiskey).Methods(http.MethodPost)
+	r.HandleFunc("/api/whiskey", h.UpdateWhiskey).Methods(http.MethodPut)
+	r.HandleFunc("/api/whiskey/{id:[0-9]+}", h.DeleteWhiskey).Methods(http.MethodDelete)
 
 	//category
-	r.HandleFunc("/whiskeyCategory", h.GetWhiskeysCategory).Methods(http.MethodGet)
-	r.HandleFunc("/whiskeyCategory", h.CreateWhiskeyCategory).Methods(http.MethodPost)
-	r.HandleFunc("/whiskeyCategory", h.UpdateWhiskeyCategory).Methods(http.MethodPut)
-	r.HandleFunc("/whiskeyCategory/{id:[0-9]+}", h.DeleteWhiskeyCategory).Methods(http.MethodDelete)
+	r.HandleFunc("/api/whiskeyCategory", h.GetWhiskeysCategory).Methods(http.MethodGet)
+	r.HandleFunc("/api/whiskeyCategory", h.CreateWhiskeyCategory).Methods(http.MethodPost)
+	r.HandleFunc("/api/whiskeyCategory", h.UpdateWhiskeyCategory).Methods(http.MethodPut)
+	r.HandleFunc("/api/whiskeyCategory/{id:[0-9]+}", h.DeleteWhiskeyCategory).Methods(http.MethodDelete)
 
-	r.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
+	r.PathPrefix("/api/swagger").Handler(httpSwagger.WrapHandler)
 	corsHandler := cors.Default().Handler(r)
 	err = http.ListenAndServe(":8000", corsHandler)
 	if err != nil {
